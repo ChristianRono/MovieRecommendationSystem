@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <title>Movie Recommendation App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" />
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <body>
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'recommender:home' %}">Movie Recommendation App</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExample01">
+          <ul class="navbar-nav me-auto mb-2">
+            <li class="nav-item">
+              <a class="nav-link {{ home }}" href="{% url 'recommender:home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ detail}}" >Movie</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ recommendations }}" href="{% url 'recommender:recommendations' %}">Recommendations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ about }}" href="{% url 'recommender:about' %}">About</a>
+            </li>
+          </ul>
+          <form class="d-flex" method="get" accept-charset="utf-8">
+            <input class="form-control" type="text" placeholder="Search.." name="search_query">
+            <button class="btn btn-outline-primary" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
+  </body>
+</html>

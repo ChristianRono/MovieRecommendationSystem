@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+  {% block content %}
+    {% if uncomparable %}
+    <p class="lead">Welcome to the Movie Recommendation App! This web application can recommend you movies that you might like or dislike. In order to see the recommendations, all you need to do is like and dislike some movies as this will help the app to get to know your preferences. Please select a movie from the list below or search a movie by its name in order to like or dislike the movie.</p><br>
+    <h1>Randomly picked movies for you</h1>
+    <br>
+      <div class="row">
+        {% for movie in uncomparable %}
+          <div class="col-md-3" style= "padding-left: 20px; padding-top:20px">
+            <div class="card">
+              <img src="{% static 'movies.png' %}" height="100px" width="100px" />
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="/{{ movie.movie_id }}/">{{ movie.title }}</a></h5>
+                    <p class="card-text">
+                      <b>Genres</b>: {{ movie.genres }}</br>
+                      <b>Ratings</b>: {{ movie.rating_mean|floatformat:2 }}/5
+                    </p>
+                  </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% elif search_results %}
+    <h2>Search Results...</h2>
+    <div class="row">
+      {% for movie in search_results %}
+          <div class="col-md-3" style= "padding-left: 20px; padding-top:20px">
+            <div class="card">
+              <img src="{% static 'movies.png' %}" height="100px" width="100px" />
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="/{{ movie.movie_id }}/">{{ movie.title }}</a></h5>
+                    <p class="card-text">
+                      <b>Genres</b>: {{ movie.genres }}</br>
+                      <b>Ratings</b>: {{ movie.rating_mean|floatformat:2 }}/5
+                    </p>
+                  </div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+      <h1>Nothing</h1>
+    {% endif %}
+    {% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+  {% block content %}
+  <div class="card">
+    <div class="row">
+      <div class="col-md-4">
+        <img src="{% static 'movies.png' %}" height="200px" width="200px" />
+      </div>
+
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.name }}</h5>
+          <p class="card-text">
+            <b>Genres</b>: {{ movie.genres }}</br>
+            <b>Ratings</b>: {{ movie.rating|floatformat:2 }}/5
+          </p>
+          <a class="btn btn-outline-info" href="http://www.imdb.com/title/tt{{ links.imdb }}">IMDB Link</a>
+          {% if links.youtube %}
+            <a class="btn btn-outline-info" href="https://www.youtube.com/watch?v={{links.youtube}}">Youtube Link</a>
+          {% endif %}
+          {% if links.tmdb %}
+            <a class="btn btn-outline-info" href="https://www.themoviedb.org/movie/{{links.tmdb}}">TMDB Link</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+    <div>
+        {% if movie.liked == 1 %}
+          <h5 class="alert alert-success">You LIKED this movie</h5>
+        {% elif movie.liked == 0 %}
+          <h5 class="alert alert-danger">You DISLIKED this movie</h5>
+        {% else %}
+          <h5 class="alert alert-info">You haven't rated this movie yet</h5>
+        {% endif %}
+        <br>
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <form id="liked" method="post" accept-charset="utf-8" action="/rate/{{ movie.id }}/">
+                {% csrf_token %}
+                <button class="btn btn-success" type="submit" name="liked">Liked it!</button>
+                <button class="btn btn-danger" type="submit" name="disliked">Didn't like it</button>
+                <button class="btn btn-warning" type="submit" name="reset">Reset</button>
+            </form>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+      <div class="row" style="padding-top:20px">
+        <h4 class="center">Similar Movies</h4>
+        {% for movie in movie.movies %}
+        <div class="col-md-3" style= "padding-left: 20px; padding-top:20px">
+          <div class="card">
+            <img src="{% static 'movies.png' %}" height="100px" width="100px" />
+                <div class="card-body">
+                  <h5 class="card-title"><a href="/{{ movie.movie_id }}/">{{ movie.title }}</a></h5>
+                  <p class="card-text">
+                    <b>Genres</b>: {{ movie.genres }}</br>
+                    <b>Ratings</b>: {{ movie.rating_mean|floatformat:2 }}/5
+                  </p>
+                </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  {% endblock %}
